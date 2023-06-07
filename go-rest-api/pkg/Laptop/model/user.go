@@ -2,8 +2,6 @@ package model
 
 import (
 	"context"
-
-	"github.com/gocql/gocql"
 )
 
 const (
@@ -11,7 +9,6 @@ const (
 )
 
 type User struct {
-	ID       gocql.UUID         `bson:"id"`
 	Name     string             `bson:"name"`
 	Email    string             `bson:"email"`
 	Password string             `bson:"password"`

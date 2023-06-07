@@ -17,12 +17,12 @@ func init() {
 	cluster.Keyspace = "eeshan"
 	cluster.Authenticator = gocql.PasswordAuthenticator{Username: "test", Password: "testpwd"}
 	cluster.Port=9042
-	cluster.Consistency = gocql.Quorum
+	cluster.Consistency = gocql.One
 
 	cluster.RetryPolicy = &gocql.SimpleRetryPolicy{
 		NumRetries: 3,
 	}
-	cluster.Consistency = gocql.Quorum
+	cluster.Consistency = gocql.One
 	var session *gocql.Session
 	var err error
 	for {

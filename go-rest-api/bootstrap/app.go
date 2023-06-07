@@ -16,6 +16,6 @@ func App() Application {
 	return *app
 }
 
-// func (app *Application) CloseDBConnection() {
-// 	CloseCassandraConnection()
-// }
+func (app *Application) CloseDBConnection() {
+	CloseCassandraConnection()
+}

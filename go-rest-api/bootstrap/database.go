@@ -1,7 +1,7 @@
 package bootstrap
 
 import (
-	"be-training/go-rest-api/pkg/model"
+	"be-training/go-rest-api/pkg/Laptop/model"
 	"context"
 	"errors"
 	"fmt"
@@ -30,88 +30,46 @@ type Laptop struct {
 
 // var Session *gocql.Session
 
-// func init() {
-// 	var err error
-// 	cluster := gocql.NewCluster("127.0.0.1:9042")
-// 	cluster.Keyspace = "eeshan"
-// 	cluster.Port=9042
-// 	cluster.ProtoVersion = 4
-//     cluster.Consistency = gocql.Quorum
-//     cluster.CQLVersion = "3.4.5"
-//     cluster.IgnorePeerAddr = true
-//     cluster.DefaultIdempotence = true
-//     cluster.Timeout = time.Second * 3000000
-//     cluster.ConnectTimeout = time.Second * 30000000
-// 	cluster.Authenticator = gocql.PasswordAuthenticator{Username: "test", Password: "testpwd"}
-
-// 	Session, err = cluster.CreateSession()
-// 	if err != nil {
-// 	  panic(err)
-// 	}
-// 	fmt.Println("cassandra init done")
-//   }
-
   
 
 func NewCassandraDatabase(env *Env) {
 
 
-// 	// cassandraConfigHost := env.CassandraHost
-// 	cassandraConfigPort := env.CassandraPort
-// 	cassandraConfigKeyspace := env.CassandraKeyspace
-// 	cassandraUser:=env.CASSANDRA_USER
-// 	cassandraPass:=env.CASSANDRA_PASSWORD
-// 	// cassandraConfigConsistancy := env.CassanraConsistency
+	// cassandraConfigHost := env.CassandraHost
+	cassandraConfigPort := env.CassandraPort
+	cassandraConfigKeyspace := env.CassandraKeyspace
+	cassandraUser:=env.CASSANDRA_USER
+	cassandraPass:=env.CASSANDRA_PASSWORD
+	// cassandraConfigConsistancy := env.CassanraConsistency
 
-// 	cluster := gocql.NewCluster("127.0.0.1:9042") 
-//     cluster.Keyspace = cassandraConfigKeyspace
-//     cluster.Port = cassandraConfigPort
+	cluster := gocql.NewCluster("127.0.0.1:9042") 
+    cluster.Keyspace = cassandraConfigKeyspace
+    cluster.Port = cassandraConfigPort
 
-//     cluster.DisableInitialHostLookup = true
-//     cluster.Authenticator = gocql.PasswordAuthenticator{Username: cassandraUser, Password: cassandraPass}
-//     cluster.ProtoVersion = 4
-//     cluster.Consistency = gocql.Quorum
-//     cluster.CQLVersion = "3.4.5"
-//     cluster.IgnorePeerAddr = true
-//     cluster.DefaultIdempotence = true
-//     cluster.Timeout = time.Second * 3000000
-//     cluster.ConnectTimeout = time.Second * 30000000
-//     session, err := cluster.CreateSession()
-//     if err != nil {
-//         fmt.Println("error in session", err)
-//         return
-//     }
-// 	if session == nil || session.Closed() {
-//         session, err := cluster.CreateSession()
-// 		fmt.Println("session", session, "err", err)
-//     }
-//     // defer session.Close()
-// }
+    cluster.DisableInitialHostLookup = true
+    cluster.Authenticator = gocql.PasswordAuthenticator{Username: cassandraUser, Password: cassandraPass}
+    cluster.ProtoVersion = 4
+    cluster.Consistency = gocql.One
+    cluster.CQLVersion = "3.4.5"
+    cluster.IgnorePeerAddr = true
+    cluster.DefaultIdempotence = true
+    cluster.Timeout = time.Second * 3000000
+    cluster.ConnectTimeout = time.Second * 30000000
+    session, err := cluster.CreateSession()
+    if err != nil {
+        fmt.Println("error in session", err)
+        return
+    }
+	if session == nil || session.Closed() {
+        session, err := cluster.CreateSession()
+		fmt.Println("session", session, "err", err)
+    }
+    defer session.Close()
+}
 
-// func CloseCassandraConnection() {
-// 	Session.Close() 
+func CloseCassandraConnection() {
+	Session.Close() 
 
-
-cluster := gocql.NewCluster("127.0.0.1:9042")
-	cluster.Keyspace = "eeshan"
-	cluster.Authenticator = gocql.PasswordAuthenticator{Username: "test", Password: "testpwd"}
-	cluster.Port=9042
-	cluster.RetryPolicy = &gocql.SimpleRetryPolicy{
-		NumRetries: 3,
-	}
-	cluster.Consistency = gocql.Quorum
-	var session *gocql.Session
-	var err error
-	for {
-		session, err = cluster.CreateSession()
-		if err == nil {
-			break
-		}
-		log.Printf("CreateSession: %v", err)
-		time.Sleep(time.Second)
-	}
-	log.Printf("Connected OK\n")
-	defer session.Close()
 	
 }
 
@@ -132,7 +90,7 @@ func CreateDocument(laptop *model.LaptopStruct) error {
 
 		fmt.Println(q, "query")
 	err := Session.Query(q,
-		laptop.Id,
+		gocql.UUIDFromTime(time.Now()),
 		laptop.Brand,
 		laptop.Model,
 		laptop.Year,

@@ -13,6 +13,10 @@ type LaptopStruct struct {
 
 }
 
+type IdResponse struct {
+	Id int `form:"id" json:"id" bson:"id`
+}
+
 
 
 

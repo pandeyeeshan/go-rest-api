@@ -1,7 +1,7 @@
 package handler
 
 import (
-	model "be-training/go-rest-api/pkg/model"
+	model "be-training/go-rest-api/pkg/Laptop/model"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

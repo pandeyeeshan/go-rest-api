@@ -1,7 +1,7 @@
 package tokenutil
 
 import (
-	"be-training/go-rest-api/pkg/model"
+	"be-training/go-rest-api/pkg/Laptop/model"
 	"fmt"
 	"time"
 
@@ -12,7 +12,7 @@ func CreateAccessToken(user *model.User, secret string, expiry int) (accessToken
 	exp := time.Now().Add(time.Hour * time.Duration(expiry)).Unix()
 	claims := &model.JwtCustomClaims{
 		Name: user.Name,
-		ID:   user.ID.String(),
+		ID:   "1234",
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: exp,
 		},
@@ -27,7 +27,7 @@ func CreateAccessToken(user *model.User, secret string, expiry int) (accessToken
 
 func CreateRefreshToken(user *model.User, secret string, expiry int) (refreshToken string, err error) {
 	claimsRefresh := &model.JwtCustomRefreshClaims{
-		ID: user.ID.String(),
+		ID: "1234",
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * time.Duration(expiry)).Unix(),
 		},

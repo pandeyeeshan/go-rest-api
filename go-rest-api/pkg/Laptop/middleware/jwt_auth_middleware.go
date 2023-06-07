@@ -1,11 +1,11 @@
 package middleware
 
 import (
+	"be-training/go-rest-api/internal/tokenutil"
 	"net/http"
 	"strings"
 
-	"be-training/go-rest-api/internal/tokenutil"
-	model "be-training/go-rest-api/pkg/model"
+	model "be-training/go-rest-api/pkg/Laptop/model"
 
 	"github.com/gin-gonic/gin"
 )
